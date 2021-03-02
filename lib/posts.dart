@@ -1,8 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+import 'components/header.dart';
+import 'components/loading.dart';
+import 'components/tableComponents.dart';
 
 class Posts {
   int userId;
@@ -60,23 +63,7 @@ class _PostsTableState extends State<PostsTable> {
               padding: EdgeInsets.only(top: 35),
               child: Column(
                 children: [
-                  Row(children: [
-                    IconButton(
-                        iconSize: 30,
-                        alignment: Alignment.topLeft,
-                        icon: Icon(Icons.arrow_back_rounded),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.75,
-                        alignment: Alignment.center,
-                        child: Text(
-                          'POSTAGENS',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        )),
-                  ]),
+                  Header(titleTable: "POSTAGENS"),
                   Container(
                     child: SingleChildScrollView(
                       child: DataTable(
@@ -87,54 +74,17 @@ class _PostsTableState extends State<PostsTable> {
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                         columns: [
-                          DataColumn(
-                            label: Text(
-                              'Id do \nUsuário',
-                              textAlign: TextAlign.center,
-                            ),
-                            numeric: false,
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Id',
-                            ),
-                            numeric: true,
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Título',
-                            ),
-                            numeric: false,
-                          ),
+                          TableComponents.column('Id do \nUsuário', true),
+                          TableComponents.column('Id', true),
+                          TableComponents.column('Título', false)
                         ],
                         rows: data
                             .map(
                               (post) => DataRow(
                                 cells: [
-                                  DataCell(
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        post.userId.toString(),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        post.id.toString(),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        post.title.toString(),
-                                      ),
-                                    ),
-                                  ),
+                                  TableComponents.cell(post.userId.toString()),
+                                  TableComponents.cell(post.id.toString()),
+                                  TableComponents.cell(post.title.toString())
                                 ],
                               ),
                             )
@@ -146,15 +96,7 @@ class _PostsTableState extends State<PostsTable> {
               ),
             );
           }
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CircularProgressIndicator(),
-                SizedBox(height: 20),
-              ],
-            ),
-          );
+          return Loading.loadingScreen();
         },
       ),
     );

@@ -6,16 +6,16 @@ import 'todos.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: MyApp(),
+    home: Home(),
   ));
 }
 
-class MyApp extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _HomeState createState() => _HomeState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,10 +31,7 @@ class _MyAppState extends State<MyApp> {
               textColor: Colors.white,
               height: 100,
               minWidth: 140,
-              child: Text(
-                "POSTAGENS",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
+              child: Text("POSTAGENS"),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -49,10 +46,7 @@ class _MyAppState extends State<MyApp> {
               textColor: Colors.white,
               height: 100,
               minWidth: 140,
-              child: Text(
-                "ÁLBUNS",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
+              child: Text("ÁLBUNS"),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -67,10 +61,7 @@ class _MyAppState extends State<MyApp> {
               textColor: Colors.white,
               height: 100,
               minWidth: 140,
-              child: Text(
-                "TO-DOs",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
+              child: Text("TO-DOs"),
               onPressed: () {
                 Navigator.push(
                   context,

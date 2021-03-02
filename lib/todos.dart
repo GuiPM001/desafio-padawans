@@ -1,8 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+import 'components/header.dart';
+import 'components/tableComponents.dart';
+import 'components/loading.dart';
 
 class ToDos {
   int userId;
@@ -62,23 +65,7 @@ class _ToDosTableState extends State<ToDosTable> {
               padding: EdgeInsets.only(top: 35),
               child: Column(
                 children: [
-                  Row(children: [
-                    IconButton(
-                        iconSize: 30,
-                        alignment: Alignment.topLeft,
-                        icon: Icon(Icons.arrow_back_rounded),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.75,
-                        alignment: Alignment.center,
-                        child: Text(
-                          'TO-DOs',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        )),
-                  ]),
+                  Header(titleTable: "TO-DOs"),
                   Container(
                     child: SingleChildScrollView(
                       child: DataTable(
@@ -89,68 +76,20 @@ class _ToDosTableState extends State<ToDosTable> {
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                         columns: [
-                          DataColumn(
-                            label: Text(
-                              'Id do \nUsuário',
-                              textAlign: TextAlign.center,
-                            ),
-                            numeric: true,
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Id',
-                            ),
-                            numeric: true,
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Título',
-                            ),
-                            numeric: false,
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Completado',
-                            ),
-                            numeric: false,
-                          ),
+                          TableComponents.column('Id do \nUsuário', true),
+                          TableComponents.column('Id', true),
+                          TableComponents.column('Título', false),
+                          TableComponents.column('Completado', false)
                         ],
                         rows: data
                             .map(
                               (todo) => DataRow(
                                 cells: [
-                                  DataCell(
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        todo.userId.toString(),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        todo.id.toString(),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        todo.title.toString(),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        todo.completed.toString(),
-                                      ),
-                                    ),
-                                  ),
+                                  TableComponents.cell(todo.userId.toString()),
+                                  TableComponents.cell(todo.id.toString()),
+                                  TableComponents.cell(todo.title.toString()),
+                                  TableComponents.cell(
+                                      todo.completed.toString())
                                 ],
                               ),
                             )
@@ -162,15 +101,7 @@ class _ToDosTableState extends State<ToDosTable> {
               ),
             );
           }
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CircularProgressIndicator(),
-                SizedBox(height: 20),
-              ],
-            ),
-          );
+          return Loading.loadingScreen();
         },
       ),
     );

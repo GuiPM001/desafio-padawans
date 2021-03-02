@@ -1,8 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+import 'components/header.dart';
+import 'components/loading.dart';
+import 'components/tableComponents.dart';
 
 class Albums {
   int userId;
@@ -61,23 +64,7 @@ class _AlbumsTableState extends State<AlbumsTable> {
               padding: EdgeInsets.only(top: 35),
               child: Column(
                 children: [
-                  Row(children: [
-                    IconButton(
-                        iconSize: 30,
-                        alignment: Alignment.topLeft,
-                        icon: Icon(Icons.arrow_back_rounded),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.75,
-                        alignment: Alignment.center,
-                        child: Text(
-                          'ÁLBUNS',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        )),
-                  ]),
+                  Header(titleTable: "ÁLBUNS"),
                   Container(
                     child: SingleChildScrollView(
                       child: DataTable(
@@ -88,50 +75,17 @@ class _AlbumsTableState extends State<AlbumsTable> {
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                         columns: [
-                          DataColumn(
-                            label: Text(
-                              'Id do \nUsuário',
-                              textAlign: TextAlign.center,
-                            ),
-                            numeric: true,
-                          ),
-                          DataColumn(
-                            label: Text('Id'),
-                            numeric: true,
-                          ),
-                          DataColumn(
-                            label: Text('Título'),
-                            numeric: false,
-                          ),
+                          TableComponents.column('Id do \nUsuário', true),
+                          TableComponents.column('Id', true),
+                          TableComponents.column('Título', false)
                         ],
                         rows: data
                             .map(
                               (album) => DataRow(
                                 cells: [
-                                  DataCell(
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        album.userId.toString(),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        album.id.toString(),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        album.title.toString(),
-                                      ),
-                                    ),
-                                  ),
+                                  TableComponents.cell(album.userId.toString()),
+                                  TableComponents.cell(album.id.toString()),
+                                  TableComponents.cell(album.title.toString())
                                 ],
                               ),
                             )
@@ -143,14 +97,7 @@ class _AlbumsTableState extends State<AlbumsTable> {
               ),
             );
           }
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CircularProgressIndicator(),
-              ],
-            ),
-          );
+          return Loading.loadingScreen();
         },
       ),
     );
