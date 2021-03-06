@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-class TableComponents {
-  static column(String nameColumn, bool numeric) {
+class TableComponent {
+  static column(String columnName, bool numeric) {
     return DataColumn(
         label: Text(
-          nameColumn,
+          columnName,
           textAlign: TextAlign.center,
         ),
         numeric: numeric);
   }
 
-  static cell(String dado) {
+  static cell(String data) {
     return DataCell(Container(
       alignment: Alignment.centerLeft,
-      child: Text(dado),
+      child: Text(data),
     ));
   }
 }

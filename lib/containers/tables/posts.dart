@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'components/header.dart';
-import 'components/loading.dart';
-import 'components/tableComponents.dart';
+import '../../components/header.dart';
+import '../../components/loading.dart';
+import '../../components/tableComponent.dart';
 
 class Posts {
   int userId;
@@ -23,14 +23,13 @@ class Posts {
   }
 }
 
+// ignore: missing_return
 Future<List<Posts>> fetchAlbums() async {
   final response = await http.get('https://jsonplaceholder.typicode.com/posts');
 
   if (response.statusCode == 200) {
     var parsed = json.decode(response.body);
-
     List jsonReponse = parsed as List;
-
     return jsonReponse.map((list) => new Posts.fromJson(list)).toList();
   } else {
     print('Error, could not load data.');
@@ -63,7 +62,7 @@ class _PostsTableState extends State<PostsTable> {
               padding: EdgeInsets.only(top: 35),
               child: Column(
                 children: [
-                  Header(titleTable: "POSTAGENS"),
+                  Header(titleTable: "Posts"),
                   Container(
                     child: SingleChildScrollView(
                       child: DataTable(
@@ -74,17 +73,17 @@ class _PostsTableState extends State<PostsTable> {
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                         columns: [
-                          TableComponents.column('Id do \nUsuário', true),
-                          TableComponents.column('Id', true),
-                          TableComponents.column('Título', false)
+                          TableComponent.column('Id', true),
+                          TableComponent.column('User-id', true),
+                          TableComponent.column('Title', false)
                         ],
                         rows: data
                             .map(
                               (post) => DataRow(
                                 cells: [
-                                  TableComponents.cell(post.userId.toString()),
-                                  TableComponents.cell(post.id.toString()),
-                                  TableComponents.cell(post.title.toString())
+                                  TableComponent.cell(post.id.toString()),
+                                  TableComponent.cell(post.userId.toString()),
+                                  TableComponent.cell(post.title.toString())
                                 ],
                               ),
                             )

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'albums.dart';
-import 'posts.dart';
-import 'todos.dart';
+import 'package:teste_framework/components/button.dart';
+
+import 'components/button.dart';
+import './containers/tables/albums.dart';
+import './containers/tables/posts.dart';
+import './containers/tables/todos.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -24,53 +27,14 @@ class _HomeState extends State<Home> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("T A B E L A S",
+            Text("Access to Tables",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500)),
-            FlatButton(
-              color: Colors.red[600],
-              textColor: Colors.white,
-              height: 100,
-              minWidth: 140,
-              child: Text("POSTAGENS"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return PostsTable();
-                  }),
-                );
-              },
-            ),
-            FlatButton(
-              color: Colors.blue[600],
-              textColor: Colors.white,
-              height: 100,
-              minWidth: 140,
-              child: Text("ÁLBUNS"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return AlbumsTable();
-                  }),
-                );
-              },
-            ),
-            FlatButton(
-              color: Colors.green[600],
-              textColor: Colors.white,
-              height: 100,
-              minWidth: 140,
-              child: Text("TO-DOs"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return ToDosTable();
-                  }),
-                );
-              },
-            ),
+            NavTableButton.button(
+                Colors.red[600], "Posts", context, PostsTable()),
+            NavTableButton.button(
+                Colors.blue[600], "Albums", context, AlbumsTable()),
+            NavTableButton.button(
+                Colors.green[600], "To-dos", context, ToDosTable()),
           ],
         ),
       ),

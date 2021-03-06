@@ -3,35 +3,34 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'components/header.dart';
-import 'components/loading.dart';
-import 'components/tableComponents.dart';
+import '../../components/header.dart';
+import '../../components/loading.dart';
+import '../../components/tableComponent.dart';
 
 class Albums {
-  int userId;
   int id;
+  int userId;
   String title;
 
   Albums({this.userId, this.id, this.title});
 
   factory Albums.fromJson(Map<String, dynamic> json) {
     return Albums(
-      userId: json['userId'],
       id: json['id'],
+      userId: json['userId'],
       title: json['title'],
     );
   }
 }
 
+// ignore: missing_return
 Future<List<Albums>> fetchAlbums() async {
   final response =
       await http.get('https://jsonplaceholder.typicode.com/albums');
 
   if (response.statusCode == 200) {
     var parsed = json.decode(response.body);
-
     List jsonReponse = parsed as List;
-
     return jsonReponse.map((list) => new Albums.fromJson(list)).toList();
   } else {
     print('Error, could not load data.');
@@ -64,7 +63,7 @@ class _AlbumsTableState extends State<AlbumsTable> {
               padding: EdgeInsets.only(top: 35),
               child: Column(
                 children: [
-                  Header(titleTable: "ÁLBUNS"),
+                  Header(titleTable: "Albums"),
                   Container(
                     child: SingleChildScrollView(
                       child: DataTable(
@@ -75,17 +74,17 @@ class _AlbumsTableState extends State<AlbumsTable> {
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                         columns: [
-                          TableComponents.column('Id do \nUsuário', true),
-                          TableComponents.column('Id', true),
-                          TableComponents.column('Título', false)
+                          TableComponent.column('Id', true),
+                          TableComponent.column('User-id', true),
+                          TableComponent.column('Title', false)
                         ],
                         rows: data
                             .map(
                               (album) => DataRow(
                                 cells: [
-                                  TableComponents.cell(album.userId.toString()),
-                                  TableComponents.cell(album.id.toString()),
-                                  TableComponents.cell(album.title.toString())
+                                  TableComponent.cell(album.id.toString()),
+                                  TableComponent.cell(album.userId.toString()),
+                                  TableComponent.cell(album.title.toString())
                                 ],
                               ),
                             )

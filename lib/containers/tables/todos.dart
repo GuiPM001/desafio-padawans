@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'components/header.dart';
-import 'components/tableComponents.dart';
-import 'components/loading.dart';
+import '../../components/header.dart';
+import '../../components/loading.dart';
+import '../../components/tableComponent.dart';
 
 class ToDos {
-  int userId;
   int id;
+  int userId;
   String title;
-  bool completed;
+  bool done;
 
-  ToDos({this.userId, this.id, this.title, this.completed});
+  ToDos({this.userId, this.id, this.title, this.done});
 
   factory ToDos.fromJson(Map<String, dynamic> json) {
     return ToDos(
-      userId: json['userId'],
       id: json['id'],
+      userId: json['userId'],
       title: json['title'],
-      completed: json['completed'],
+      done: json['completed'],
     );
   }
 }
@@ -30,9 +30,7 @@ Future<List<ToDos>> fetchToDos() async {
 
   if (response.statusCode == 200) {
     var parsed = json.decode(response.body);
-
     List jsonReponse = parsed as List;
-
     return jsonReponse.map((list) => new ToDos.fromJson(list)).toList();
   } else {
     print('Error, could not load data.');
@@ -65,31 +63,30 @@ class _ToDosTableState extends State<ToDosTable> {
               padding: EdgeInsets.only(top: 35),
               child: Column(
                 children: [
-                  Header(titleTable: "TO-DOs"),
+                  Header(titleTable: "To-Dos"),
                   Container(
                     child: SingleChildScrollView(
                       child: DataTable(
-                        columnSpacing: 25,
+                        columnSpacing: 36,
                         dataRowHeight: 100,
                         headingTextStyle: TextStyle(
                             color: Colors.green[600],
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                         columns: [
-                          TableComponents.column('Id do \nUsuário', true),
-                          TableComponents.column('Id', true),
-                          TableComponents.column('Título', false),
-                          TableComponents.column('Completado', false)
+                          TableComponent.column('Id', true),
+                          TableComponent.column('User-id', true),
+                          TableComponent.column('Title', false),
+                          TableComponent.column('Done', false)
                         ],
                         rows: data
                             .map(
                               (todo) => DataRow(
                                 cells: [
-                                  TableComponents.cell(todo.userId.toString()),
-                                  TableComponents.cell(todo.id.toString()),
-                                  TableComponents.cell(todo.title.toString()),
-                                  TableComponents.cell(
-                                      todo.completed.toString())
+                                  TableComponent.cell(todo.id.toString()),
+                                  TableComponent.cell(todo.userId.toString()),
+                                  TableComponent.cell(todo.title.toString()),
+                                  TableComponent.cell(todo.done.toString())
                                 ],
                               ),
                             )
